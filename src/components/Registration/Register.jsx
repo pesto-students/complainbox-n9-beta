@@ -10,6 +10,8 @@ import PanelHeader from '../../Shared/common/PanelHeader';
 import firebase from "firebase";
 import { register } from "../../redux/actions/auth";
 import { connect } from "react-redux";
+import LoadingButton from '@mui/lab/LoadingButton';
+
 const validationSchema = yup.object({
     fullname: yup
         .string('Enter your name')
@@ -51,10 +53,9 @@ function setUpRecaptcha() {
         }
     );
 };
-function Register({ register }) {
+function Register({ register, loading }) {
     // const { signup } = useAuth();
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
     const history = useHistory()
     const [values, setValues] = useState({
         fullname: '',
@@ -63,6 +64,7 @@ function Register({ register }) {
         confirmPassword: '',
         mobile: '',
     });
+
     const formik = useFormik({
         initialValues: {
             fullname: '',
@@ -208,13 +210,17 @@ function Register({ register }) {
                                         </Link>
                                     </Grid>
 
-                                    <Button style={{ color: "#fff" }}
+                                    <LoadingButton
+                                        style={{ color: "#fff" }}
+                                        sx={{ mt: 3, mb: 2 }}
+                                        loading={loading}
                                         type="submit"
-                                        fullWidth
                                         variant="contained"
+                                        fullWidth
+                                        loadingPosition="end"
                                     >
-                                        Register
-                                    </Button>
+                                        Sign Up
+                                    </LoadingButton>
                                     <Grid item container>
 
                                         <Grid item py={2}>
@@ -232,7 +238,8 @@ function Register({ register }) {
         </Grid>
     );
 }
-// const mapStateToProps =state =>({
-//     isAuthenticated: state.auth.isAuthenticated
-// })
-export default connect(null, { register })(Register);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    loading: state.auth.loading
+})
+export default connect(mapStateToProps, { register })(Register);

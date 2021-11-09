@@ -18,23 +18,49 @@ import { Fragment } from 'react';
 import VerticalChart from './VerticalChart';
 import PieChart from './PieChart';
 import { connect } from 'react-redux';
-import axios from "axios";
 import { useState } from 'react';
 import { getDashboardData } from "../../redux/actions/auth"
+import Loader from '../../Shared/common/Loader';
+import { useHistory } from "react-router-dom"
+
 function Dashboard({ auth }) {
   const [rows, setRows] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [allTableData, setAllTableData] = React.useState(null);
-  const [dataLoaded, setDataLoaded] = useState(false)
+  const [loaded, setLoaded] = React.useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  let history = useHistory()
   useEffect(() => {
-    getDashboardData(page, rowsPerPage).then((res) => {
-      setRows(res);
-    })
-  }, [setRowsPerPage, setRows]);
-  console.log(rows)
+    if (auth.user && auth.user.UserRole === "Department") {
+      getDashboardData(page, rowsPerPage, "department", auth.user.id).then((res) => {
+        setRows(res);
+        setLoaded(false)
+      })
+    } else if (auth.user && auth.user.UserRole === "Complainant") {
+      getDashboardData(page, rowsPerPage, "complainant", auth.user.id).then((res) => {
+        setRows(res);
+        setLoaded(false)
+      })
+    } else {
+      getDashboardData(page, rowsPerPage, null, null).then((res) => {
+        setRows(res);
+        setLoaded(false)
+      })
+    }
 
+  }, [setRowsPerPage, setRows, auth.user]);
+
+  const redirectToSingleComplain = (id) => {
+    debugger
+    console.log(auth.user.UserRole !== "Department")
+    console.log(auth.user.UserRole !== "SuperAdmin")
+    if (auth.user.UserRole !== "Department" && auth.user.UserRole !== "SuperAdmin") {
+      history.push(`complain-details/${id}`)
+    } else {
+      history.push(`complain-department-details/${id}`)
+    }
+  }
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -56,93 +82,95 @@ function Dashboard({ auth }) {
 
     return t.toString();
   }
-  return (
-    <Fragment>
-      {auth.user ? (<Grid container mt={12} px={12}><Typography style={{ fontWeight: "bold", fontSize: "20px" }}>Welcome {auth.user ? auth.user.FullName : ""}</Typography></Grid>
-      ) : ""
-      }
-      <Grid container px={12} mt={12}>
-        <Paper sx={{ width: '100%' }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell colSpan={3} style={{ backgroundColor: "#2B7A78", color: "#fff", fontWeight: "bolder" }} md={{ flexGrow: 1 }}>
-                    Today
-                  </TableCell>
-                  <TableCell colSpan={2} style={{ backgroundColor: "#2B7A78", color: "#fff" }} align="right">
-                    <Box>
-                      <Button
-                        style={{ backgroundColor: "transparent", color: "#fff", fontWeight: "bold" }}
-                        id="demo-customized-button"
-                        aria-controls="demo-customized-menu"
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        variant="contained"
-                        disableElevation
-                        onClick={handleClick}
-                        endIcon={<KeyboardArrowDownIcon />}
-                      >
-                        Options
-                      </Button>
-                      <StyledMenuHome anchorEl={anchorEl} setAnchorEl={setAnchorEl} open={open} handleClose={handleClose} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ top: 57, minWidth: column.minWidth }}
-                    >
-                      <Typography style={{ fontWeight: "bolder" }}>{column.label}</Typography>
+  return loaded ?
+    (<Grid container px={12} mt={12} style={{ height: "100%" }}>
+      <Loader />
+    </Grid>) : (
+      <Fragment>
+        {auth.user ? (<Grid container mt={12} px={12}><Typography style={{ fontWeight: "bold", fontSize: "20px" }}>Welcome {auth.user ? auth.user.FullName : ""}</Typography></Grid>
+        ) : ""
+        }
+
+        <Grid container px={12} mt={12}>
+          <Paper sx={{ width: '100%' }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell colSpan={3} style={{ backgroundColor: "#2B7A78", color: "#fff", fontWeight: "bolder" }} md={{ flexGrow: 1 }}>
+                      Today
                     </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows && rows.length && rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, i) => {
-                    console.log(row)
-                    return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                          let columnValue = row.hasOwnProperty(column.id)
-                          debugger
-                          const value = column.id === "CreatedAt" ? toDateTime(row[column.id]._seconds) : row[column.id]
-                          console.log(value)
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[3, 10, 25, 100]}
-            component="div"
-            count={rows && rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Grid>
-      <TodayRecord />
-      <VerticalChart />
-      <PieChart />
-    </Fragment>
-  );
+                    <TableCell colSpan={2} style={{ backgroundColor: "#2B7A78", color: "#fff" }} align="right">
+                      <Box>
+                        <Button
+                          style={{ backgroundColor: "transparent", color: "#fff", fontWeight: "bold" }}
+                          id="demo-customized-button"
+                          aria-controls="demo-customized-menu"
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          variant="contained"
+                          disableElevation
+                          onClick={handleClick}
+                          endIcon={<KeyboardArrowDownIcon />}
+                        >
+                          Options
+                        </Button>
+                        <StyledMenuHome anchorEl={anchorEl} setAnchorEl={setAnchorEl} open={open} handleClose={handleClose} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ top: 57, minWidth: column.minWidth }}
+                      >
+                        <Typography style={{ fontWeight: "bolder" }}>{column.label}</Typography>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows && rows.length && rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      return (
+                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id} onClick={() => redirectToSingleComplain(row.id)} style={{ cursor: "pointer" }}>
+                          {columns.map((column) => {
+                            let columnValue = row.hasOwnProperty(column.id)
+                            const value = column.id === "CreatedAt" ? toDateTime(row[column.id]._seconds) : row[column.id]
+                            const id = row.id
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[3, 10, 25, 100]}
+              component="div"
+              count={rows && rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Grid>
+        <TodayRecord />
+        <VerticalChart />
+        <PieChart />
+      </Fragment >
+    );
 }
 const mapStateToProps = (state) => ({
   auth: state.auth,

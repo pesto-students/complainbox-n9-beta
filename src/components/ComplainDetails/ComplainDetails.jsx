@@ -1,13 +1,21 @@
-import { Box, Grid, Typography, Button } from '@mui/material';
+import { Grid, Typography, Button } from '@mui/material';
 import React, { useState, useRef, useEffect } from 'react';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import EmailVerificationImage from "../../assets/EmailVerification.png";
 import { FormHelperText } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import { getSingleComplainData } from '../../redux/actions/auth';
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import WorkOutline from '@mui/icons-material/WorkOutline';
+import Public from '@mui/icons-material/Public';
+import Subject from '@mui/icons-material/Subject';
+import CloudUpload from '@mui/icons-material/CloudUpload';
+import FlashAutoIcon from '@mui/icons-material/FlashAuto';
+import { Fragment } from 'react';
+
 function ComplainDetails(props) {
-    const [complainData, setComplainData] = useState(null)
+    const [complainData, setComplainData] = useState({})
     const [description, setDescription] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const editorRef = useRef(null);
@@ -35,24 +43,22 @@ function ComplainDetails(props) {
         }
     }
 
-    // useEffect(async () => {
-    //     //setRows(rowsData)
-    //     debugger
-    //     const data = await getSingleComplainData(id)
-    //         .then(res => {
-    //             setComplainData(res)
-    //         })
-
-    // }, []);
-
+    useEffect(async () => {
+        const data = await getSingleComplainData(id)
+            .then(res => {
+                setComplainData(res)
+            })
+    }, [setComplainData]);
 
     console.log(complainData)
+
+    // console.log(complainData.ComplainDocument.ComplainDocumentPath.length)
     return (
         <Grid container py={12} px={20}>
             <Grid container>
                 <Grid item md={6} sm={6} xs={6}>
                     <Typography>
-                        Complain ID: {complainData.id}
+                        Complain ID: {id}
                     </Typography>
                     <Typography>
                         Complain Status: {complainData.ComplainStatus}
@@ -84,7 +90,7 @@ function ComplainDetails(props) {
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Date: </b> {complainData.ComplainStatus}
+                            <DateRangeIcon /> <b style={{ marginRight: "10px " }}>Date: </b> {complainData.ComplainStatus}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -102,7 +108,7 @@ function ComplainDetails(props) {
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Complain Severity: </b> {complainData.ComplainSeverity}
+                            <FlashAutoIcon /> <b style={{ marginRight: "10px " }}>Complain Severity: </b> {complainData.ComplainSeverity}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -112,7 +118,7 @@ function ComplainDetails(props) {
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Departmebnt: </b> {complainData.ComplainDepartmentID}
+                            <WorkOutline /> <b style={{ marginRight: "10px " }}>Department: </b> {complainData.department?.DepartmentName}
                         </Typography>
                     </Grid>
                     <Grid item md={6} sm={12} xs={12} pt={4}>
@@ -120,7 +126,7 @@ function ComplainDetails(props) {
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>City: </b> {complainData.ComplainCity}
+                            <Public /> <b style={{ marginRight: "10px " }}>City: </b> {complainData.city?.CityName}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -130,42 +136,72 @@ function ComplainDetails(props) {
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Subject Line: </b> {complainData.ComplainSubject}
+                            <Subject /> <b style={{ marginRight: "10px " }}>Subject Line: </b> {complainData.ComplainSubject}
                         </Typography>
                     </Grid>
                 </Grid>
                 <Grid container pt={5}>
-                    <Typography variant="subtitle1" pl={2}>
-                        {complainData.ComplainDescription}
+                    <Typography variant="h6">
+                        Description
+                    </Typography>
+                </Grid>
+                <Grid container pt={5}>
+                    <Typography variant="subtitle1">
+                        {ReactHtmlParser(complainData.ComplainDescription)}
                     </Typography>
                 </Grid>
                 <Grid item container direction="row" alignItems="center">
-                    <Grid item md={6} sm={12} xs={12} pt={4}>
+                    <Grid item md={12} sm={12} xs={12} pt={4}>
                         <Typography variant="subtitle1" style={{
                             verticalAlign: 'middle',
                             display: 'inline-flex'
                         }}>
-                            <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Files: </b> Private
+                            <CloudUpload /> <b style={{ marginRight: "10px " }}>Files: </b>
                         </Typography>
                     </Grid>
-                    <Grid item md={6} sm={12} xs={12} pt={4}>
+
+                    {/* <Grid item md={6} sm={12} xs={12} pt={4}>
                         <Typography variant="subtitle1" >
-                            <img style={{ width: "100%", maxHeight: "200px" }} src={EmailVerificationImage} alt="" />
+                            <img style={{ width: "100%", maxHeight: "200px" }} src={complainData.ComplainDocument.ComplainDocumentPath} alt="" />
                         </Typography>
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} pt={4}>
-                        <Typography variant="subtitle1" style={{
-                            verticalAlign: 'middle',
-                            display: 'inline-flex'
-                        }}>
-                            <b style={{ marginRight: "10px " }}>Departmebnt: </b> Private
-                        </Typography>
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} pt={4}>
-                        <Typography variant="subtitle1" >
-                            <img style={{ width: "100%", maxHeight: "200px" }} src={EmailVerificationImage} alt="" />
-                        </Typography>
-                    </Grid>
+                    </Grid> */}
+                    {complainData && complainData.ComplainDocument && Array.isArray(complainData.ComplainDocument.ComplainDocumentPath) && complainData.ComplainDocument.ComplainDocumentPath.map((document, i) => {
+                        return (
+                            <Grid item container direction="row" alignItems="center" md={12}>
+                                <Grid item md={8} sm={12} xs={12} pt={4}>
+                                    <Typography variant="subtitle1" style={{
+                                        verticalAlign: 'middle',
+                                        display: 'inline-flex'
+                                    }}>
+                                        <b style={{ marginRight: "10px " }}>File </b> {i + 1}
+                                    </Typography>
+                                </Grid>
+                                <Grid item md={4} sm={12} xs={12} pt={4}>
+                                    <Typography variant="subtitle1" >
+                                        <img style={{ width: "100%", maxHeight: "200px" }} src={document} alt="" />
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        )
+                    })}
+                    {complainData && complainData.ComplainDocument && !Array.isArray(complainData.ComplainDocument.ComplainDocumentPath) ? (
+                        <Fragment>
+                            <Grid item md={6} sm={12} xs={12} pt={4}>
+                                <Typography variant="subtitle1" style={{
+                                    verticalAlign: 'middle',
+                                    display: 'inline-flex'
+                                }}>
+                                    <b style={{ marginRight: "10px " }}>Departmebnt: </b> Private
+                                </Typography>
+                            </Grid>
+                            <Grid item md={6} sm={12} xs={12} pt={4}>
+                                <Typography variant="subtitle1" >
+                                    <img style={{ width: "100%", maxHeight: "200px" }} src={complainData.ComplainDocument.ComplainDocumentPath} alt="" />
+                                </Typography>
+                            </Grid>
+                        </Fragment>
+                    ) : ""}
+
                 </Grid>
             </Grid>
             <Grid container mt={12}>

@@ -1,13 +1,11 @@
 import React, { Fragment, useEffect } from "react";
 import AppToolbar from "./Shared/Layouts/Toolbar/Toolbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Provider } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import { loadUser } from "./redux/actions/auth";
 import Login from "./components/Login/Login";
 import AppFooter from "./Shared/Layouts/Footer/Footer";
 import { Grid } from "@mui/material";
-import { AuthProvider } from "./contexts/AuthContext";
 import Register from "./components/Registration/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import RaiseComplaints from "./components/RaiseComplain/RaiseComplaints";
@@ -17,18 +15,21 @@ import MobileVerifications from "./components/Mobileverification/MobileVerificat
 import PrivateRoute from "./components/Routing/PrivateRoute";
 import ComplainDetails from "./components/ComplainDetails/ComplainDetails";
 import ComplainDepartmentChange from "./components/ComplainDepartmentChange/ComplainDepartmentChange";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import store from "./redux/store";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const App = () => {
+import { connect } from "react-redux";
+const App = ({ auth }) => {
   const history = useHistory();
 
   useEffect(() => {
     store.dispatch(loadUser());
     let token = localStorage.getItem("token");
     if (!token) {
+      history.push("/login");
+    } else if (token && !auth.token) {
+      localStorage.removeItem("token");
       history.push("/login");
     }
   }, []);
@@ -100,5 +101,7 @@ const App = () => {
     </ThemeProvider>
   );
 };
-
-export default App;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps)(App);

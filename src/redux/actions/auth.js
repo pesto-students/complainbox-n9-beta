@@ -9,6 +9,7 @@ import {
   CLEAR_PROFILE,
   GET_PROFILE,
   APP_ERROR,
+  LOADING,
 } from "./types";
 import { toast } from "react-toastify";
 import { auth, storage } from "../../firebase";
@@ -22,6 +23,10 @@ const register =
   ({ fullname, email, password, mobile }, history) =>
   async (dispatch) => {
     try {
+      dispatch({
+        type: LOADING,
+        payload: true,
+      });
       const registrationInfo = await auth.createUserWithEmailAndPassword(
         email,
         password
@@ -51,11 +56,19 @@ const register =
         type: REGISTER_SUCCESS,
         payload: response.data.message,
       });
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
       //push('/email-verification');
       history.push("/email-verification");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
     }
   };
 const login =
@@ -66,6 +79,10 @@ const login =
         "Content-type": "Application/json",
       },
     };
+    dispatch({
+      type: LOADING,
+      payload: true,
+    });
     const newUser = {
       email,
       password,
@@ -112,7 +129,10 @@ const login =
         type: LOGIN_SUCCESS,
         payload: response.data.user[0],
       });
-      console.log(response);
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
       if (localStorage.getItem("userIsEmailVerified") == "No") {
         history.push("/email-verification");
       } else if (localStorage.getItem("userIsMobileVerified") == "No") {
@@ -123,6 +143,10 @@ const login =
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
     }
   };
 
@@ -213,7 +237,7 @@ const loadUser = () => async (dispatch) => {
     });
   }
 };
-const logout = () => async (dispatch) => {
+const logout = (history) => async (dispatch) => {
   await auth.signOut();
   dispatch({
     type: CLEAR_PROFILE,
@@ -221,6 +245,7 @@ const logout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+  history.push("/login");
 };
 
 const imageupload =
@@ -231,60 +256,59 @@ const imageupload =
     history
   ) =>
   async (dispatch) => {
-
-    var len1=files.length;
-    let images=[];
-    let completedCount=0;
-    for (var i=0; i < len1; i++) {
-      var image= files[i];
+    var len1 = files.length;
+    let images = [];
+    let completedCount = 0;
+    for (var i = 0; i < len1; i++) {
+      var image = files[i];
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      uploadTask.on('state_changed',
+      uploadTask.on(
+        "state_changed",
         (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
         },
         (error) => {
-            // Handle unsuccessful uploads
-            console.log("error:-", error)
+          // Handle unsuccessful uploads
+          console.log("error:-", error);
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              console.log('File available at', downloadURL);
-              images.push(downloadURL.toString());
-              completedCount=completedCount+1;
-              console.log(completedCount)
-              console.log(len1)
-              if(completedCount==len1){
-                console.log(images) 
-                let data = {
-                  city: city,
-                  department: department,
-                  description:description,
-                  subject: subject,
-                  complainType:complainType,
-                  severity:severity,
-                  userid: localStorage.getItem("userID"),
-                  urls: images,
-                  token: localStorage.getItem("token"),
-                };
+            console.log("File available at", downloadURL);
+            images.push(downloadURL.toString());
+            completedCount = completedCount + 1;
+            console.log(completedCount);
+            console.log(len1);
+            if (completedCount == len1) {
+              console.log(images);
+              let data = {
+                city: city,
+                department: department,
+                description: description,
+                subject: subject,
+                complainType: complainType,
+                severity: severity,
+                userid: localStorage.getItem("userID"),
+                urls: images,
+                token: localStorage.getItem("token"),
+              };
 
-                client({
-                    method: "post",
-                    url: "/createcomplaint",
-                    headers: {
-                      AuthToken: localStorage.getItem("token"),
-                    },
-                    data: data,
-                }).then(()=>{
-                    history.push('/dashboard')
-                });
-              }
-              
+              client({
+                method: "post",
+                url: "/createcomplaint",
+                headers: {
+                  AuthToken: localStorage.getItem("token"),
+                },
+                data: data,
+              }).then(() => {
+                history.push("/dashboard");
+              });
+            }
           });
         }
       );
     }
-      
   };
 
 // const getDashboardData = () => async (dispatch) => {
@@ -299,20 +323,36 @@ const imageupload =
 //     //history.push("/dashboard");
 //   });
 // };
-const getDashboardData = async (page, rowsPerPage) => {
+const getDashboardData = async (page, rowsPerPage, userType, userId) => {
   try {
-    const client = axios.create({
-      baseURL: "https://e-complainbox.herokuapp.com",
-      json: true,
-    });
-    const { data } = await client({
-      method: "get",
-      url: `/getcomplaints/${page}/${rowsPerPage}`,
-      headers: {
-        AuthToken: localStorage.getItem("token"),
-      },
-    });
-    return data.Complains;
+    let data = null;
+    if (userType === "department") {
+      data = await client({
+        method: "get",
+        url: `/complaintbydep/${userId}/${page}/${rowsPerPage}`,
+        headers: {
+          AuthToken: localStorage.getItem("token"),
+        },
+      });
+    } else if (userType === "complainant") {
+      data = await client({
+        method: "get",
+        url: `/complaintbyuser/${userId}/${page}/${rowsPerPage}`,
+        headers: {
+          AuthToken: localStorage.getItem("token"),
+        },
+      });
+    } else {
+      data = await client({
+        method: "get",
+        url: `/getcomplaints/${page}/${rowsPerPage}`,
+        headers: {
+          AuthToken: localStorage.getItem("token"),
+        },
+      });
+    }
+    console.log(data);
+    return data.data.Complains;
   } catch (error) {
     console.log(error);
   }
@@ -323,12 +363,7 @@ const getDashboardData = async (page, rowsPerPage) => {
   // });
 };
 const getSingleComplainData = async (id) => {
-  debugger;
   try {
-    const client = axios.create({
-      baseURL: "https://e-complainbox.herokuapp.com",
-      json: true,
-    });
     const { data } = await client({
       method: "get",
       url: `/complaint/${id}`,
@@ -346,6 +381,21 @@ const getSingleComplainData = async (id) => {
   //   setDataLoaded(!dataLoaded)
   // });
 };
+
+const getComplainGroupData = async (userId) => {
+  try {
+    const { data } = await client({
+      method: "get",
+      url: `/complaintgroupbydata/${userId}`,
+      headers: {
+        AuthToken: localStorage.getItem("token"),
+      },
+    });
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export {
   register,
   loadUser,
@@ -356,4 +406,5 @@ export {
   imageupload,
   getDashboardData,
   getSingleComplainData,
+  getComplainGroupData,
 };

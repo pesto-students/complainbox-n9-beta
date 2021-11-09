@@ -6,12 +6,13 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
+  LOADING,
 } from "../actions/types";
 
 const INITIAL_STATE = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
-  loading: true,
+  loading: false,
   user: null,
   IsEmailVerified: null,
   IsMobleVerified: null,
@@ -57,6 +58,12 @@ const registration = (state = INITIAL_STATE, action) => {
         user: action.payload,
         IsEmailVerified: action.payload.IsEmailVerified,
         IsMobleVerified: action.payload.IsMobileVerified,
+      };
+    case LOADING:
+      return {
+        ...state,
+        ...action.payload,
+        loading: action.payload,
       };
     case REGISTER_FAILED:
     case LOGIN_FAILED:

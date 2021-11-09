@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Box, Grid, Button } from "@mui/material";
+import { Box, Grid, Button, Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import { Link, useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { FormControl, FormControlLabel, Radio } from "@mui/material";
 import { RadioGroup } from "@mui/material";
 import { FormLabel } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 const validationSchema = yup.object({
   email: yup.string("Enter your Email/Mobile Number")
     // .email("Enter a valid email")
@@ -32,14 +33,14 @@ const validationSchema = yup.object({
 });
 function Login({ login, auth }) {
   const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
   const history = useHistory()
   const [demoLoginValue, setDemoLoginValue] = useState(false);
 
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      history.push('/dashboard')
+    let token = localStorage.getItem("token");
+    if (token) {
+      history.push("/dashboard");
     }
   }, [auth.isAuthenticated, setDemoLoginValue])
 
@@ -54,6 +55,7 @@ function Login({ login, auth }) {
       await new Promise((r) => setTimeout(login(allValues, history)));
     },
   });
+  const { loading } = auth
   const handleChangeStatus = (e) => {
     if (e.target.value === "individual") {
       setDemoLoginValue(!demoLoginValue)
@@ -61,11 +63,11 @@ function Login({ login, auth }) {
       formik.values.password = "123456";
     } else if (e.target.value === "department") {
       setDemoLoginValue(!demoLoginValue)
-      formik.values.email = "ramana@gmail.com";
+      formik.values.email = "womenchildcare@gmail.com";
       formik.values.password = "123456";
     } else if (e.target.value === "superAdmin") {
       setDemoLoginValue(!demoLoginValue)
-      formik.values.email = "kapil@gmail.com";
+      formik.values.email = "superadmin@gmail.com";
       formik.values.password = "123456";
     }
   }
@@ -90,11 +92,16 @@ function Login({ login, auth }) {
           </Grid>
           <Grid item xs={12} sm={12} md={6} px={2}>
             <Grid item container direction="row" alignItems="center">
+              <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+                Demo accounts for different users
+              </Typography>
+            </Grid>
+            <Grid item container direction="row" alignItems="center">
               <Grid item >
                 <FormControl component="fieldset">
                   <RadioGroup size="large"
                     row aria-label="gender" name="row-radio-buttons-group" name="demo" onChange={handleChangeStatus}>
-                    <FormLabel component="legend" name="severity" style={{ marginRight: "15px", marginTop: "10px" }}></FormLabel>
+                    <FormLabel component="legend" name="severity"></FormLabel>
                     <FormControlLabel value="individual" control={<Radio />} label="Individual" />
                     <FormControlLabel value="department" control={<Radio />} label="Department" />
                     <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" />
@@ -147,14 +154,25 @@ function Login({ login, auth }) {
                     </Link>
                   </Grid>
 
-                  <Button style={{ color: "#fff" }}
+                  {/* <Button style={{ color: "#fff" }}
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >
                     Sign In
-                  </Button>
+                  </Button> */}
+                  <LoadingButton
+                    style={{ color: "#fff" }}
+                    sx={{ mt: 3, mb: 2 }}
+                    loading={loading}
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    loadingPosition="end"
+                  >
+                    Sign In
+                  </LoadingButton>
                 </form>
                 <Grid item container>
                   <Grid item py={2}>
@@ -168,7 +186,7 @@ function Login({ login, auth }) {
           </Grid>
         </Grid>
       </Box>
-    </Grid>
+    </Grid >
   );
 }
 const mapStateToProps = (state) => ({

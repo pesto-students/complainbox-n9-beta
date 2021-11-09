@@ -1,65 +1,103 @@
-import { Grid, Typography } from '@mui/material';
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import PanelHeader from '../../Shared/common/PanelHeader';
+import { Bar } from 'react-chartjs-2';
+import { getComplainGroupData } from '../../redux/actions/auth';
+import { connect } from "react-redux"
 
-const data = {
-  labels: ['Health', 'Tax', 'Transport', 'Women', 'Irrigation', 'Agriculture', 'Home', 'Police', 'Tourism', 'Culture', 'Mines'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3, 23, 30, 480, , 50],
-      backgroundColor: [
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)',
-        'rgba(255, 102, 2, 0.8)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 99, 132, 1)'
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
-const options = {
-  scales: {
-    yAxes: [
+
+const VerticalChart = ({ auth }) => {
+  const [totalData, setTotalData] = useState([])
+  const [totalRasiedData, setTotalRasiedData] = useState([])
+  const [totalInComplainData, setTotalInComplainData] = useState([])
+  const [totalDoneData, setTotalDoneData] = useState([])
+  const [dataChanged, setdataChanged] = useState(false)
+  const [totalDepartments, setTotalDepartments] = useState([])
+
+  useEffect(() => {
+    if (auth.user) {
+      getComplainGroupData(auth.user.id).then((res) => {
+        res.length && res.map(datas => {
+          setTotalData(res)
+          setTotalRasiedData((totalRasiedData) => [
+            ...totalRasiedData,
+            datas.totalRaiseComplains,
+          ]);
+          setTotalInComplainData((totalInComplainData) => [
+            ...totalInComplainData,
+            datas.totalWipComplains,
+          ]);
+          setTotalDoneData((totalDoneData) => [
+            ...totalDoneData,
+            datas.totalCompletedComplains,
+          ]);
+          setTotalDepartments((totalDepartments) => [
+            ...totalDepartments,
+            datas.DepartmentName ? datas.DepartmentName : datas.DepartmentNam,
+          ]);
+        })
+      })
+    }
+  }, [setTotalData, auth.user]);
+
+
+
+  const data = {
+    labels: totalDepartments,
+    datasets: [
       {
-        ticks: {
-          beginAtZero: true,
-        },
+        label: 'Total Raise Complains',
+        data: totalRasiedData,
+        backgroundColor: 'rgb(255, 99, 132)',
+      },
+      {
+        label: 'Total W ip Complains',
+        data: totalInComplainData,
+        backgroundColor: 'rgb(54, 162, 235)',
+      },
+      {
+        label: 'Total Completed Complains',
+        data: totalDoneData,
+        backgroundColor: 'rgb(75, 192, 192)',
       },
     ],
-  },
-  gridLines: {
-    color: 'white'
+  };
+  const options = {
+    scales: {
+      xAxes: [
+
+        {
+          ticks: {
+            min: 0
+          },
+          stacked: true,
+
+        }
+      ],
+      yAxes: [{
+        stacked: true,
+        display: true,
+        ticks: {
+          suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+          // OR //
+          beginAtZero: true   // minimum value will be 0.
+        }
+      }]
+
+    }
   }
-};
 
-const VerticalChart = () => (
-  <Grid container px={12} pt={8}>
-    <PanelHeader title={"Statictics"} />
-    <Grid container style={{ background: "#fff" }}>
-      <Bar data={data} options={options} style={{ width: "100%", maxHeight: "250px", fontWeight: "bolder" }} />
+  return (
+    <Grid container px={12} pt={8}>
+      <PanelHeader title={"Statictics"} />
+      <Grid container style={{ background: "#fff" }}>
+        <Bar data={data} options={options} style={{ width: "100%", maxHeight: "250px", fontWeight: "bolder" }} />
+      </Grid>
     </Grid>
-  </Grid>
-);
-
-export default VerticalChart;
+  )
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps)(VerticalChart);
