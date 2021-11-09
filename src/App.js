@@ -12,7 +12,6 @@ import RaiseComplaints from "./components/RaiseComplain/RaiseComplaints";
 import Homepage from "./components/Homepage/Homepage";
 import EmailVerifications from "./components/Emailverification/EmailVerifications";
 import MobileVerifications from "./components/Mobileverification/MobileVerifications";
-import PrivateRoute from "./components/Routing/PrivateRoute";
 import ComplainDetails from "./components/ComplainDetails/ComplainDetails";
 import ComplainDepartmentChange from "./components/ComplainDepartmentChange/ComplainDepartmentChange";
 import { useHistory } from "react-router-dom";

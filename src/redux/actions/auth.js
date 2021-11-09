@@ -7,8 +7,6 @@ import {
   AUTH_ERROR,
   LOGOUT,
   CLEAR_PROFILE,
-  GET_PROFILE,
-  APP_ERROR,
   LOADING,
 } from "./types";
 import { toast } from "react-toastify";
@@ -66,6 +64,11 @@ const register =
       console.log(error);
       toast.error(error.message);
       dispatch({
+        type: REGISTER_FAILED,
+        payload: false,
+      });
+      
+      dispatch({
         type: LOADING,
         payload: false,
       });
@@ -74,19 +77,11 @@ const register =
 const login =
   ({ email, password }, history) =>
   async (dispatch) => {
-    const config = {
-      headers: {
-        "Content-type": "Application/json",
-      },
-    };
     dispatch({
       type: LOADING,
       payload: true,
     });
-    const newUser = {
-      email,
-      password,
-    };
+
     const phoneRegex = /^(\+91-|\+91|0)?\d{10}$/; // Change this regex based on requirement
 
     let isValidPhone = phoneRegex.test(email); //
@@ -144,6 +139,10 @@ const login =
       console.log(error);
       toast.error(error.message);
       dispatch({
+        type: LOGIN_FAILED,
+        payload: false,
+      });
+      dispatch({
         type: LOADING,
         payload: false,
       });
@@ -169,6 +168,10 @@ const emailverifications =
       });
       if (response.data.message == "success") {
         localStorage.setItem("userIsEmailVerified", "Yes");
+        dispatch({
+          type: LOADING,
+          payload: false,
+        });
         window.location.href = "/mobile-verification";
       } else {
         //('Invalid OTP!');
@@ -189,7 +192,8 @@ const mobileverifications =
         docId: localStorage.getItem("userID"),
         otp: OTP,
       };
-      const response = await client({
+      
+      await client({
         method: "post",
         url: "/mobileverification",
         headers: {
@@ -200,6 +204,10 @@ const mobileverifications =
         console.log(response.data.message);
         if (response.data.message == "success") {
           localStorage.setItem("userIsMobileVerified", "Yes");
+          dispatch({
+            type: LOADING,
+            payload: false,
+          });
           window.location.href = "/raise";
         } else {
           //dispatch(setAlert("Invalid OTP", "danger"));
@@ -302,6 +310,10 @@ const imageupload =
                 },
                 data: data,
               }).then(() => {
+                dispatch({
+                  type: LOADING,
+                  payload: false,
+                });
                 history.push("/dashboard");
               });
             }
