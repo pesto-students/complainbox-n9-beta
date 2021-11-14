@@ -21,8 +21,7 @@ export function AuthProvider({ children }) {
   
 
   function signup(email, password,phone,fullname,callback) {
-    return auth.createUserWithEmailAndPassword(email, password).then(function(user) {
-      var user = auth.currentUser;
+    return auth.createUserWithEmailAndPassword(email, password).then(function() {
       let data={
         fullname:fullname,
         email:email,
@@ -46,6 +45,7 @@ export function AuthProvider({ children }) {
           this.response = error
         })
       }).catch((error) => {
+        console.log(error);
         callback("fail");
         this.response = "Error getting auth token"
       });
@@ -77,7 +77,7 @@ export function AuthProvider({ children }) {
       }).then((res) => {
         console.log(res.data.userEmail);
         email = res.data.userEmail
-        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+        auth.signInWithEmailAndPassword(email, password).then(function() {
           callback("success");
         },
         function(error) {
@@ -85,11 +85,12 @@ export function AuthProvider({ children }) {
           callback("fail");
         });
       }).catch((error) => {
+        console.log(error);
         callback("fail");
       })
     } 
     else
-      auth.signInWithEmailAndPassword(email, password).then(function(user) {
+      auth.signInWithEmailAndPassword(email, password).then(function() {
         callback("success");
       },
       function(error) {
