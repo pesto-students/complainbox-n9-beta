@@ -32,22 +32,21 @@
 
 ### First Run Express server
 
-*Node JS as Backend code uploaded under "https://github.com/pesto-students/server-complainbox-n9-beta" Github repo. It utilizes the Firebase Functions feature from Firebase suite of tools.*
+*Node JS as Backend code uploaded under "packages/server" Github repo. It utilizes the Firebase Functions feature from Firebase suite of tools.*
 
 **Requirment:** NPM v6.14.11, Node v14.15.4 and [Firebase CLI](https://firebase.google.com/docs/cli#install_the_firebase_cli)
 
-- Go to path `cd server-complainbox-n9-beta/`
+- Go to path `cd packages/server`
 - Run `npm install` to install all required project dependencies
-- Run `npm start` to start project on http://localhost:3030
+- Run `npm start` to start project on http://localhost:3001
 
-You can set the port in .env file or default will be http://localhost:3001
 
 **Note: When you execute the deploy command, public URL for the server will be visible in CLI**
 
 
 ### For Running frontend code
 
-- Go to main project folder `cd complainbox-n9-beta`
+- Go to main project folder `cd packages/frontend`
 - Run `npm i` to install all required project dependencies
 - Run `npm start` to the project in dev mode
 - Open the `https://localhost:3000` to run the project 
@@ -66,52 +65,38 @@ You can set the port in .env file or default will be http://localhost:3001
 ## Error Monitoring and Logs
 
 - We are using [Sentry](https://sentry.io/organizations/sector-17/issues/?environment=production&project=5814430
-) for application monitoring and error traking **Please feel free to contact on Slack for access to Sentry** [#e-comp_proj](https://join.slack.com/share/zt-sa486201-IYsy2Ms6fvqvauMmtmmbnQ)
+) for application monitoring and error traking **Please feel free to contact on Slack for access to Sentry** 
 
 ## Artefacts
 
-- [PRD](https://drive.google.com/file/d/1ckHVe4Kk2GM-xAC1W_pyM_t5bmrI6s_p/view)
-
-- [One Pager](https://drive.google.com/file/d/1KfyLHK_ECKgkQULg7VghJDqAvYIZodW2/view)
+- [PRD](https://docs.google.com/document/d/1iLnsn0tHP4HoJXGnd6GOE8xEWvFtouTdq5fkp_DFV3c/view)
 
 - [UI Design Figma](https://www.figma.com/file/Fzt1upFpkfYxKEiBLtVAof/E-ComplainBox?node-id=0%3A1)
 
-- [User Flowchart Figma](https://www.figma.com/proto/qaFqDsQnEg2wQ3NA4qWavN/FlowChart?node-id=13%3A2&scaling=scale-down-width&page-id=0%3A1)
-
-- [System Design Figma](https://www.figma.com/proto/knwI6lMdUkmkazuGlO45Rb/HLDS---Sector-17?node-id=2%3A1&scaling=contain&page-id=0%3A1)
+- [System Design Figma](https://www.figma.com/file/s1IW8TOSCte7FasXsuaCJP/HLD)
 
 
 ## Performance Screenshot
 
-![alt text](https://storage.googleapis.com/sector17-chandigarh.appspot.com/readme/performance.jpg)
+![alt text](https://firebasestorage.googleapis.com/v0/b/ecomplainbox-18f35.appspot.com/o/performance%2FPerformance.png?alt=media&token=4433afad-4b67-4e0f-91bc-fcd9af919d55)
 
 
 ## Features
 
-- **Authentication** - Authentication using Facebook, Google One user, one account
-- **Search** - Help users to search shops, products, categories etc.
-- **Filters** - Filter products according Price, size, brand etc.
-- **Cart** - Bag to put all items you are willing to purchase
-- **Guest Checkout** - No strings attached
-- **Payment Method** - Pay using different payment methods
-- **Dynamic Pricing/Shipping** - Different pricing for different users, Loyalty Program, Express Delivery.
-- **Services** - OrderHistory, Wishlist, Manage profile, Recently Viewed/Searched, Trending etc.
+- **Authentication** - Authentication using Email, Mobile
+- **Raise Complain** - Help users create complaint.
+- **Complainer Dashboard** - Help show data in charts.
+- **Department Dashboard** - Helps show data related to department
 - **Security** - React provides protection from XSS out of the box. CORS applied on Node.JS server, so no other request from unknown origin gets executed.
-- **Wishlist** - Shortlist now, Buy later
 
 
 ## Upcoming Features
 
-- Vendor Admin Panel
-- Virtual Rendering for Pagination
-- Switcher for Incremental Rollout
-- .env File for Controlling Different Environments
-- Show complete order details on Order History
-- Return Exchange on Order History
-- Better and more Optimised Filters
-- Frequently Bought Together
-- Best Deals
-- Product Review System
+- Perfolie
+- Notifications to super admin if complain not resolved in 15 days
+- There will be Maintenance hierarchy of department employees.
+- Aadhar card authentication
+- AI to decide the priority of complaints.
 
 
 ## Third party tools
