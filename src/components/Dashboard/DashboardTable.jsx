@@ -79,7 +79,7 @@ function DashboardTable({ auth }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows && rows.length && rows
+                            {rows && rows.length > 0 ? rows
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
@@ -98,14 +98,14 @@ function DashboardTable({ auth }) {
                                             })}
                                         </TableRow>
                                     );
-                                })}
+                                }) : < TableRow style={{ textAlign: "center", padding: "20px" }}> No Data</TableRow>}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 {/* <input type="number" name="rowss"></input> */}
 
                 <TablePagination
-                    rowsPerPageOptions={[3, 10, 25, 100, rows.length]}
+                    rowsPerPageOptions={[3, 10, 25, 100, rows && rows.length ? rows.length : 0].sort((a, b) => a - b)}
                     component="div"
                     count={rows && rows.length}
                     rowsPerPage={rowsPerPage}
