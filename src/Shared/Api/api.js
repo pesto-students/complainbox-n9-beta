@@ -6,6 +6,7 @@ const client = axios.create({
   baseURL: "https://e-complainbox.herokuapp.com",
   json: true,
 });
+
 const imageupload =
   (
     { files, city, department, complainType, severity, subject, description },
@@ -17,56 +18,81 @@ const imageupload =
     var len1 = files.length;
     let images = [];
     let completedCount = 0;
-    for (var i = 0; i < len1; i++) {
-      var image = files[i];
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-        },
-        (error) => {
-          // Handle unsuccessful uploads
-          console.log("error:-", error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            images.push(downloadURL.toString());
-            completedCount = completedCount + 1;
-            console.log(completedCount);
-            console.log(len1);
-            if (completedCount == len1) {
-              console.log(images);
-              let data = {
-                city: city,
-                department: department,
-                description: description,
-                subject: subject,
-                complainType: complainType,
-                severity: severity,
-                userid: localStorage.getItem("userID"),
-                urls: images,
-                token: localStorage.getItem("token"),
-              };
+    if(len1>0){
+      for (var i = 0; i < len1; i++) {
+        var image = files[i];
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            console.log("error:-", error);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              images.push(downloadURL.toString());
+              completedCount = completedCount + 1;
+              console.log(completedCount);
+              console.log(len1);
+              if (completedCount == len1) {
+                console.log(images);
+                let data = {
+                  city: city,
+                  department: department,
+                  description: description,
+                  subject: subject,
+                  complainType: complainType,
+                  severity: severity,
+                  userid: localStorage.getItem("userID"),
+                  urls: images,
+                  token: localStorage.getItem("token"),
+                };
+  
+                client({
+                  method: "post",
+                  url: "/createcomplaint",
+                  headers: {
+                    AuthToken: localStorage.getItem("token"),
+                  },
+                  data: data,
+                }).then(() => {
+                  history.push("/dashboard");
+                });
+              }
+            });
+          }
+        );
+      }
+    }else{
+      let data = {
+        city: city,
+        department: department,
+        description: description,
+        subject: subject,
+        complainType: complainType,
+        severity: severity,
+        userid: localStorage.getItem("userID"),
+        token: localStorage.getItem("token"),
+      };
 
-              client({
-                method: "post",
-                url: "/createcomplaint",
-                headers: {
-                  AuthToken: localStorage.getItem("token"),
-                },
-                data: data,
-              }).then(() => {
-                history.push("/dashboard");
-              });
-            }
-          });
-        }
-      );
+      client({
+        method: "post",
+        url: "/createcomplaint",
+        headers: {
+          AuthToken: localStorage.getItem("token"),
+        },
+        data: data,
+      }).then(() => {
+        history.push("/dashboard");
+      }); 
     }
+    
   };
 
 const updateComplain = (
@@ -78,59 +104,87 @@ const updateComplain = (
     let len1 = files && files.length;
     let images = [];
     let completedCount = 0;
-    for (var i = 0; i < len1; i++) {
-      var image = files[i];
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
+    if(len1>0){
+      for (var i = 0; i < len1; i++) {
+        var image = files[i];
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            console.log("error:-", error);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              images.push(downloadURL.toString());
+              completedCount = completedCount + 1;
+              console.log(completedCount);
+              console.log(len1);
+              if (completedCount == len1) {
+                let data = {
+                  city: city,
+                  department: department,
+                  description: description,
+                  subject: subject,
+                  complainType: complainType,
+                  severity: severity,
+                  userid: localStorage.getItem("userID"),
+                  urls: images,
+                  token: localStorage.getItem("token"),
+                };
+            
+                client({
+                  method: "put",
+                  url: `/updatecomplaint/${complianID}`,
+                  headers: {
+                    AuthToken: localStorage.getItem("token"),
+                  },
+                  data: data,
+                })
+                  .then(() => {
+                    toast.success("The complain is updated");
+                    history.push("/dashboard");
+                  })
+                  .catch((error) => toast.error(error.message));
+              }
+            });
+          }
+        );
+      } 
+    }else{
+      let data = {
+        city: city,
+        department: department,
+        description: description,
+        subject: subject,
+        complainType: complainType,
+        severity: severity,
+        userid: localStorage.getItem("userID"),
+        token: localStorage.getItem("token"),
+      };
+  
+      client({
+        method: "put",
+        url: `/updatecomplaint/${complianID}`,
+        headers: {
+          AuthToken: localStorage.getItem("token"),
         },
-        (error) => {
-          // Handle unsuccessful uploads
-          console.log("error:-", error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            images.push(downloadURL.toString());
-            completedCount = completedCount + 1;
-            console.log(completedCount);
-            console.log(len1);
-            if (completedCount == len1) {
-              console.log(images);
-            }
-          });
-        }
-      );
-    }
-    let data = {
-      city: city,
-      department: department,
-      description: description,
-      subject: subject,
-      complainType: complainType,
-      severity: severity,
-      userid: localStorage.getItem("userID"),
-      urls: images,
-      token: localStorage.getItem("token"),
-    };
-
-    client({
-      method: "put",
-      url: `/updatecomplaint/${complianID}`,
-      headers: {
-        AuthToken: localStorage.getItem("token"),
-      },
-      data: data,
-    })
-      .then(() => {
-        toast.success("The complain is updated");
-        history.push("/dashboard");
+        data: data,
       })
-      .catch((error) => toast.error(error.message));
+        .then(() => {
+          toast.success("The complain is updated");
+          history.push("/dashboard");
+        })
+        .catch((error) => toast.error(error.message));
+    }
+    
+
   } catch (error) {
     toast.error(error.message);
   }
