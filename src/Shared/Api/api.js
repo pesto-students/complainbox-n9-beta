@@ -204,7 +204,7 @@ const departmentChange = (
 
     client({
       method: "put",
-      url: `/complaint/${complianID}`,
+      url: `/departmentchangecomplaint/${complianID}`,
       headers: {
         AuthToken: localStorage.getItem("token"),
       },
