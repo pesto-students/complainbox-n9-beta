@@ -51,19 +51,8 @@ function ComplainDepartmentChange({ auth }) {
     }, [setComplainData, loader]);
 
     const downloadImage = (url) => {
-        var element = document.createElement("a");
-
-        var file = new Blob(
-            [
-                url
-            ],
-            { type: "image/*" }
-        );
-        window.URL.createObjectURL(new Blob([url]));
-        element.href = URL.createObjectURL(file);
-        element.download = "image.jpg";
-        element.click();
-        // saveAs(url, 'image.jpg') // Put your image url here.
+        window.win = open(url);
+        setTimeout('win.document.execCommand("SaveAs")', 500);
     }
 
     const parseEditorData = (content) => {

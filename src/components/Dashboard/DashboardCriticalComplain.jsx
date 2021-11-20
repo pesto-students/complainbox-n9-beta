@@ -25,7 +25,7 @@ function DashboardCriticalComplain({ auth }) {
 
     useEffect(() => {
         if (auth.user && auth.user.UserRole === "Department Employee") {
-            getCriticalComplain('critical', page, rowsPerPage).then((res) => {
+            getCriticalComplain('critical', auth.user.id, page, rowsPerPage).then((res) => {
                 setRows(res);
             })
         }

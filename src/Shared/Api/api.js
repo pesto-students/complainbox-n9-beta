@@ -310,11 +310,11 @@ const getPublicComplainGroupData = async (userId) => {
   }
 };
 
-const getCriticalComplain = async (severity, page, rowsPerPage) => {
+const getCriticalComplain = async (severity, userId, page, rowsPerPage) => {
   try {
     const { data } = await client({
       method: "get",
-      url: `complaintsbyseverity/${severity}/${page}/${rowsPerPage}`,
+      url: `complaintsbyseverity/${userId}/${severity}/${page}/${rowsPerPage}`,
       headers: {
         AuthToken: localStorage.getItem("token"),
       },
