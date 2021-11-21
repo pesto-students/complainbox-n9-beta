@@ -85,7 +85,7 @@ function Login({ login, auth }) {
 
 
   return (
-    <Grid item bgcolor="#fff" borderRadius="25px" boxShadow={8} xs={12} sm={6} >
+    <Grid item bgcolor="#fff" my={12} borderRadius="25px" boxShadow={8} xs={12} sm={6} >
       <PanelHeader title={"Login"} />
       <Grid item container alignItems="stretch">
         <Grid item md={6} sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} alignItems="stretch" >
