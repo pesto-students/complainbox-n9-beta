@@ -203,8 +203,7 @@ const AppToolbar = (props) => {
             )
 
             }
-
-            <IconButton
+            {props.auth.user && props.auth.user ? (<IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -214,7 +213,9 @@ const AppToolbar = (props) => {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton>) : ""}
+
+
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

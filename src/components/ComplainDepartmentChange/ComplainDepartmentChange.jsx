@@ -51,6 +51,7 @@ function ComplainDepartmentChange({ auth }) {
     }, [setComplainData, loader]);
 
     const downloadImage = (url) => {
+        debugger
         window.win = open(url);
         setTimeout('win.document.execCommand("SaveAs")', 500);
     }
