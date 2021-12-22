@@ -112,13 +112,13 @@ const AppToolbar = (props) => {
         <MenuItem onClick={handleMenuClose}><Link to="/register" style={{ textDecoration: "none", color: "#000" }}><VpnKeyIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} />Register</Link></MenuItem>
       </Box>) : (props.auth.isAuthenticated && (props.auth.user.UserRole !== "SuperAdmin" && props.auth.user.UserRole !== "Department Employee")) ?
         (<Box>
-          <MenuItem onClick={handleMenuClose}><Link to="/raise" style={{ textDecoration: "none", color: "#000" }}><PanToolIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} />Raise Complain</Link></MenuItem>
-          <MenuItem onClick={handleMenuClose}><Link to="/public-complain" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Complains</Link></MenuItem>
+          <MenuItem onClick={handleMenuClose}><Link to="/raise" style={{ textDecoration: "none", color: "#000" }}><PanToolIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} />Raise Complaint</Link></MenuItem>
+          <MenuItem onClick={handleMenuClose}><Link to="/public-complain" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Complaints</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="/dashboard" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Dashboard</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="/profile" style={{ textDecoration: "none", color: "#000" }}><PersonIcon mr={1} style={{ fontSize: "16px", marginBottom: "-2px" }} />Profile</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="#" style={{ textDecoration: "none", color: "#000" }} onClick={logout}><ExitToAppIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} />Logout</Link></MenuItem>
         </Box>) : (<Box>
-          <MenuItem onClick={handleMenuClose}><Link to="/public-complain" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Complains</Link></MenuItem>
+          <MenuItem onClick={handleMenuClose}><Link to="/public-complain" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Complaints</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="/dashboard" style={{ textDecoration: "none", color: "#000" }}><AllInboxIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} /> Dashboard</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="/profile" style={{ textDecoration: "none", color: "#000" }}><PersonIcon mr={1} style={{ fontSize: "16px", marginBottom: "-2px" }} />Profile</Link></MenuItem>
           <MenuItem onClick={handleMenuClose}><Link to="#" onClick={logout} style={{ textDecoration: "none", color: "#000" }}><ExitToAppIcon mr={1} style={{ fontSize: "16px", marginBottom: "-1px" }} />Logout</Link></MenuItem>
@@ -176,10 +176,10 @@ const AppToolbar = (props) => {
             ) : props.auth.isAuthenticated && (props.auth.user.UserRole !== "SuperAdmin" && props.auth.user.UserRole !== "Department Employee") ? (
               <React.Fragment>
                 <Link to="/raise" style={{ color: "#fff", textDecoration: "none", alignItems: "center", fontWeight: "regular", marginRight: "10px" }}>
-                  Raise Complain
+                  Raise Complaint
                 </Link>
                 <Link to="/public-complain" variant="contained" size="small" color="success" style={{ color: "#fff", textDecoration: "none", alignItems: "center", fontWeight: "regular", marginRight: "10px" }}>
-                  Complains
+                  Complaints
                 </Link>
                 <Link to="/dashboard" variant="contained" size="small" color="success" style={{ color: "#fff", textDecoration: "none", alignItems: "center", fontWeight: "regular", marginRight: "10px" }}>
                   Dashboard
@@ -191,7 +191,7 @@ const AppToolbar = (props) => {
             ) : (
               <React.Fragment>
                 <Link to="/public-complain" variant="contained" size="small" color="success" style={{ color: "#fff", textDecoration: "none", alignItems: "center", fontWeight: "regular", marginRight: "10px" }}>
-                  Complains
+                  Complaints
                 </Link>
                 <Link to="/dashboard" variant="contained" size="small" color="success" style={{ color: "#fff", textDecoration: "none", alignItems: "center", fontWeight: "regular", marginRight: "10px" }}>
                   Dashboard
