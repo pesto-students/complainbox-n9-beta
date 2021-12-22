@@ -108,7 +108,6 @@
   flex-direction: column;
   align-items: center;
   transition: 0.5s;
-  cursor: pointer;
 }
 
 .complain-steps .step-section .icon-box:hover {

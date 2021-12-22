@@ -171,7 +171,7 @@ function ComplainDepartmentChange({ auth }) {
                     </Grid>
                     <Grid container item md={6} sm={12} xs={12} pt={{ xs: 4, sm: 3, md: 1 }}>
                         <Button variant="contained" size="large" style={{ borderRadius: "30px", background: "#23A94B", color: "#fff" }} onClick={handleSubmitForward}>
-                            Forward Complain
+                            Forward Complaint
                         </Button>
                     </Grid>
                 </Grid>
@@ -202,7 +202,7 @@ function ComplainDepartmentChange({ auth }) {
                                     verticalAlign: 'middle',
                                     display: 'inline-flex'
                                 }}>
-                                    <WarningAmberIcon style={{ marginRight: "10px " }} /> <b style={{ marginRight: "10px " }}>Complain Type: </b> {complainData.ComplainType}
+                                    <WarningAmberIcon style={{ marginRight: "10px " }} /> <b style={{ marginRight: "10px " }}>Complaint Type: </b> {complainData.ComplainType}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -212,7 +212,7 @@ function ComplainDepartmentChange({ auth }) {
                                     verticalAlign: 'middle',
                                     display: 'inline-flex'
                                 }}>
-                                    <PausePresentationIcon style={{ marginRight: "10px " }} /> <b style={{ marginRight: "10px " }}>Complain Status: </b> {complainData.ComplainStatus}
+                                    <PausePresentationIcon style={{ marginRight: "10px " }} /> <b style={{ marginRight: "10px " }}>Complaint Status: </b> {complainData.ComplainStatus}
                                 </Typography>
                             </Grid>
                             <Grid item md={6} sm={12} xs={12} pt={4}>

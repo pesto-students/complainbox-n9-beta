@@ -12,7 +12,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
     labels: totalDepartments,
     datasets: [
       {
-        label: '# of Total raised complain',
+        label: '# of Total raised complaints',
         data: totalRasiedData,
         backgroundColor: totalBackgroundColor,
         borderColor: totalBorderColor,
@@ -26,7 +26,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
     labels: totalDepartments,
     datasets: [
       {
-        label: '# of Total In Progress complain',
+        label: '# of Total In Progress complaint',
         data: totalInComplainData,
         backgroundColor: totalBackgroundColor,
         borderColor: totalBorderColor,
@@ -41,7 +41,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
     labels: totalDepartments,
     datasets: [
       {
-        label: '# of Total In Progress complain',
+        label: '# of Total In Progress complaints',
         data: totalDoneData,
         backgroundColor: totalBackgroundColor,
         borderColor: totalBorderColor,
@@ -54,7 +54,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
     labels: ["Raise", "In Progress", "Completed"],
     datasets: [
       {
-        label: '# Status Of All Complains',
+        label: '# Status Of All Complaints',
         data: [showTotalRaised, showTotalInProgress, showTotalDone],
         backgroundColor: [
           "rgb(66, 63, 249, .6)",
@@ -76,7 +76,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
         (
           <Fragment>
             <Grid container item boxShadow={10} borderRadius="20px" mt={{ xs: 5, sm: 5, md: 0 }}>
-              <PanelHeader title={"Rasised Complains"} />
+              <PanelHeader title={"Raised Complaints"} />
               <Grid container py={4} style={{ display: "flex", justifyContent: "center", background: "#fff", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px" }}>
                 {showTotalRaised === null || showTotalRaised === 'undefined' ?
                   (
@@ -93,7 +93,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
               </Grid>
             </Grid>
             <Grid container item boxShadow={10} borderRadius="20px" mt={{ xs: 5, sm: 5, md: 5 }}>
-              <PanelHeader title={"In Progress Complains"} />
+              <PanelHeader title={"In Progress Complaints"} />
               <Grid container py={4} style={{ display: "flex", justifyContent: "center", background: "#fff", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px" }}>
                 {showTotalInProgress === null || showTotalInProgress === 'undefined' ?
                   (
@@ -108,7 +108,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
               </Grid>
             </Grid>
             <Grid container item boxShadow={10} borderRadius="20px" mt={{ xs: 5, sm: 5, md: 5 }}>
-              <PanelHeader title={"Completed Complains"} />
+              <PanelHeader title={"Completed Complaints"} />
               <Grid container py={4} style={{ display: "flex", justifyContent: "center", background: "#fff", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px" }}>
                 {showTotalDone === null || showTotalDone === 'undefined' ?
                   (
@@ -126,7 +126,7 @@ const PieChart = ({ auth, showTotalDone, showTotalInProgress, showTotalRaised, t
         ) :
         (
           <Grid container item boxShadow={10} borderRadius="20px" mt={{ xs: 5, sm: 5, md: 0 }}>
-            <PanelHeader title={"All Complains"} />
+            <PanelHeader title={"All Complaints"} />
             <Grid container py={4} style={{ display: "flex", justifyContent: "center", background: "#fff", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px" }}>
               {showTotalDone === null || showTotalDone === 'undefined' ?
                 (

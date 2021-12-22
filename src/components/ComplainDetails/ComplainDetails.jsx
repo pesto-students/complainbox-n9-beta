@@ -69,10 +69,10 @@ function ComplainDetails(props) {
                 <Grid container>
                     <Grid item md={6} sm={6} xs={6}>
                         <Typography>
-                            Complain ID: {id}
+                            Complaint ID: {id}
                         </Typography>
                         <Typography>
-                            Complain Status: {complainData.ComplainStatus}
+                            Complaint Status: {complainData.ComplainStatus}
                         </Typography>
                     </Grid>
                     <Grid item md={6} sm={6} xs={6}
@@ -87,7 +87,7 @@ function ComplainDetails(props) {
                     </Grid>
                 </Grid>
                 <Grid container mt={5}>
-                    <Button variant="outlined" onClick={redirectToComplainUpdatePage}>Edit Complain</Button>
+                    <Button variant="outlined" onClick={redirectToComplainUpdatePage}>Edit Complaint</Button>
                 </Grid>
                 <Grid container style={{ background: "#fff", color: "#1F5B88" }} py={4} px={4} mt={5} borderRadius="20px" boxShadow={10}>
                     <Grid item container direction="row" alignItems="center">
@@ -114,7 +114,7 @@ function ComplainDetails(props) {
                                 verticalAlign: 'middle',
                                 display: 'inline-flex'
                             }}>
-                                <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Complain Type: </b> {complainData.ComplainType}
+                                <WarningAmberIcon /> <b style={{ marginRight: "10px " }}>Complaint Type: </b> {complainData.ComplainType}
                             </Typography>
                         </Grid>
                         <Grid item md={6} sm={12} xs={12} pt={4}>
@@ -122,7 +122,7 @@ function ComplainDetails(props) {
                                 verticalAlign: 'middle',
                                 display: 'inline-flex'
                             }}>
-                                <FlashAutoIcon /> <b style={{ marginRight: "10px " }}>Complain Severity: </b> {complainData.ComplainSeverity}
+                                <FlashAutoIcon /> <b style={{ marginRight: "10px " }}>Complaint Severity: </b> {complainData.ComplainSeverity}
                             </Typography>
                         </Grid>
                     </Grid>

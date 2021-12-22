@@ -58,7 +58,7 @@ function DashboardCriticalComplain({ auth }) {
     }
     return (
         <Grid container mb={8}>
-            <PanelHeader title={"Critical Complains"} />
+            <PanelHeader title={"Critical Complaints"} />
             <Paper sx={{ width: '100%' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table aria-label="sticky table">

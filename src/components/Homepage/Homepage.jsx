@@ -26,11 +26,11 @@ function Homepage(props) {
                         direction="column"
                         justifyContent="center"
                         alignItems="center">
-                        <Typography variant="h4" mr={2} mb={2}>E-complain Box</Typography>
+                        <Typography variant="h4" mr={2} mb={2}>E-complaint Box</Typography>
                         <Typography variant="h5">
                             <Typewriter
                                 options={{
-                                    strings: ['RAISE COMPLAIN', 'SEE CURRENT STATUS', 'SEE IF IT IS FINAL'],
+                                    strings: ['RAISE COMPLAINT', 'SEE CURRENT STATUS', 'SEE IF IT IS FINAL'],
                                     autoStart: true,
                                     loop: true,
                                 }}
@@ -68,7 +68,7 @@ function Homepage(props) {
             <Grid container md py={10} px={5} className="complain-steps">
                 <Grid container>
                     <Typography style={{ width: "100%", fontWeight: "bold" }} variant="h4" align="center">
-                        Raise your complain in just 3 steps
+                        Raise your complaint in just 3 steps
                     </Typography>
                 </Grid>
                 <Grid container pt={5} style={{ textAlign: "center", fontWeight: "bold" }}>
@@ -93,7 +93,7 @@ function Homepage(props) {
                             <LibraryBooksIcon px={2} style={{ fontSize: "60px" }} />
                         </Box>
                         <Typography style={{ textAlign: "center", fontSize: "1.5em" }} my={2}>
-                            Raise complain & check feedback
+                            Raise complaint & check feedback
                         </Typography>
                     </Grid>
                 </Grid>
@@ -138,8 +138,7 @@ function Homepage(props) {
             <Grid container>
                 <Grid item md={7} px={12} sm={12} xs={12} style={{ fontWeight: "semi-bold", display: "flex", alignItems: "center" }} py={4}>
                     <Typography style={{ fontWeight: "semi-bold", alignItems: "center", fontSize: "20px", fontStyle: "italic" }}>
-                        E-Compain Box is a government initiative under Digital India Program to solve all citizen’s problem under one umbrella. Where citizens can files complain to any goverment from a common platform. Goverment of India has issued 350 millions to provide better experience in 21st century.
-                    </Typography>
+E-Compaint Box is a government initiative under Digital India Program to solve all citizen’s problems under one umbrella. Where citizens can file complaints to any departments from a common platform. Government of India has issued 350 million to provide a better experience in the 21st century.                    </Typography>
                 </Grid>
                 <Grid item md={5} sm={12} xs={12}>
                     <img src={picture} alt="" style={{ width: "100%" }} />

@@ -10,7 +10,7 @@ function Contactus(props) {
       <Box sx={{ bgcolor: "#ffffff" }}>
         <div style={{ color: "#1F5B88", padding: "10px" }}>
           <p>
-            We are always availble for you to listen you.
+            We are always available to listen you.
           </p>
           <p><b>Write Email to us:</b></p>
           <p>
