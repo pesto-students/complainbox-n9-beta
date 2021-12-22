@@ -37,8 +37,8 @@ const validationSchema = yup.object({
         .string('Enter your City')
         .required('City is required'),
     complainType: yup
-        .string('Enter your Complain type')
-        .required('Complain type is required'),
+        .string('Enter your Complaint type')
+        .required('Complaint type is required'),
     severity: yup
         .string('Enter your Severity type')
         .required('Severity type is required'),
@@ -156,7 +156,7 @@ function RaiseComplaints({ auth }) {
                 {auth.user ? (<LoggedUserInfo auth={auth} />) : ""
                 }
                 <Grid item container mx={{ xs: 2, sm: 4, md: 8 }} mb={8} borderRadius="20px" boxShadow={20} style={{ background: "#fff" }}>
-                    <PanelHeader title={"Raise Complain"} />
+                    <PanelHeader title={"Raise Complaint"} />
                     <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
                         <Grid container px={3} pt={4} spacing={3}>
                             <Grid item container pt={4} md={6}>
@@ -248,10 +248,10 @@ function RaiseComplaints({ auth }) {
                                         Boolean(formik.errors.complainType)
                                     }>
                                         <FormLabel component="legend" sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }}
-                                            style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complain Type:</FormLabel>
+                                            style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complaint Type:</FormLabel>
                                         <RadioGroup row aria-label="gender" name="complainType" onChange={formik.handleChange}>
                                             <FormLabel component="legend" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}
-                                                style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complain Type:</FormLabel>
+                                                style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complaint Type:</FormLabel>
                                             <FormControlLabel value="public" control={<Radio />} label="Public" />
                                             <FormControlLabel value="private" control={<Radio />} label="Private" />
                                         </RadioGroup>
@@ -387,7 +387,7 @@ function RaiseComplaints({ auth }) {
                                 type="submit"
                                 variant="contained"
                             >
-                                Raise Complain
+                                Raise Complaint
                             </Button>
                         </Grid>
                     </form>

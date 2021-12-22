@@ -13,7 +13,7 @@ export default function AppFooter() {
                 <Container maxWidth="lg">
                     <Grid item container spacing={5} style={{ color: "#fff", fontWeight: "bold" }}>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="h5" mb={2}>E-Complain-Box</Typography>
+                            <Typography variant="h5" mb={2}>E-Complaint-Box</Typography>
                             <Box mb={1}><Link to="/about-us" style={{ textDecoration: "none", color: "#fff" }}>About us</Link></Box>
                             <Box><Link to="/contactus" style={{ textDecoration: "none", color: "#fff" }}>Contact us</Link></Box>
                         </Grid>
@@ -36,7 +36,7 @@ export default function AppFooter() {
             </Box >
             <Grid item xs={12} bgcolor="secondary.main" color="white" py={3} textAlign="center">
                 <Typography variant="h6" component="h6" style={{ fontStyle: "italic", fontSize: "15px" }}>
-                    All Rights Reserved © 2021 E-ComplainBox.com
+                    All Rights Reserved © 2021 E-ComplaintBox.com
                 </Typography>
             </Grid>
         </React.Fragment >

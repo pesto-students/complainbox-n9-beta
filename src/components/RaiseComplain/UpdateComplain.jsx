@@ -37,8 +37,8 @@ const validationSchema = yup.object({
         .string('Enter your City')
         .required('City is required'),
     complainType: yup
-        .string('Enter your Complain type')
-        .required('Complain type is required'),
+        .string('Enter your Complaint type')
+        .required('Complaint type is required'),
     severity: yup
         .string('Enter your Severity type')
         .required('Severity type is required'),
@@ -176,7 +176,7 @@ function UpdateComplaints({ auth }) {
                 {auth.user ? (<LoggedUserInfo auth={auth} />) : ""
                 }
                 <Grid item container mx={{ xs: 2, sm: 4, md: 8 }} mb={8} borderRadius="20px" boxShadow={20} style={{ background: "#fff" }}>
-                    <PanelHeader title={"Update Complain"} />
+                    <PanelHeader title={"Update Complaint"} />
                     <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
                         <Grid container px={3} pt={4} spacing={3}>
 
@@ -268,7 +268,7 @@ function UpdateComplaints({ auth }) {
                                         Boolean(formik.errors.complainType)
                                     }>
                                         <RadioGroup row aria-label="gender" name="complainType" onChange={formik.handleChange} value={formik.values.complainType ? formik.values.complainType : ""}>
-                                            <FormLabel component="legend" style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complain Type:</FormLabel>
+                                            <FormLabel component="legend" style={{ marginRight: "15px", marginTop: "10px" }} name="complainType">Complaint Type:</FormLabel>
                                             <FormControlLabel value="public" control={<Radio />} label="Public" />
                                             <FormControlLabel value="private" control={<Radio />} label="Private" />
                                         </RadioGroup>
@@ -389,7 +389,7 @@ function UpdateComplaints({ auth }) {
                                 fullWidth
                                 variant="contained"
                             >
-                                Update Complain
+                                Update Complaint
                             </Button>
                         </Grid>
                     </form>

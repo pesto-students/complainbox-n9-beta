@@ -1,7 +1,7 @@
 const columns = [
     {
         id: 'id',
-        label: 'Complain ID',
+        label: 'Complaint ID',
         minWidth: 100,
         align: "center"
     },
@@ -34,7 +34,7 @@ const columns = [
     },
     {
         id: 'ComplainSeverity',
-        label: 'Complain Severity',
+        label: 'Complaint Severity',
         minWidth: 170,
         align: 'center',
         format: (value) => value.toFixed(2),
