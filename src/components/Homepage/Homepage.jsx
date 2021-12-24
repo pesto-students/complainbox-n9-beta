@@ -138,7 +138,7 @@ function Homepage(props) {
             <Grid container>
                 <Grid item md={7} px={12} sm={12} xs={12} style={{ fontWeight: "semi-bold", display: "flex", alignItems: "center" }} py={4}>
                     <Typography style={{ fontWeight: "semi-bold", alignItems: "center", fontSize: "20px", fontStyle: "italic" }}>
-E-Compaint Box is a government initiative under Digital India Program to solve all citizen’s problems under one umbrella. Where citizens can file complaints to any departments from a common platform. Government of India has issued 350 million to provide a better experience in the 21st century.                    </Typography>
+E-Compaint Box is a government initiative under Digital India Program to solve all citizen’s problems under one umbrella. Where citizens can file complaints to any department from a common platform. Government of India has issued 350 million to provide a better experience in the 21st century.                    </Typography>
                 </Grid>
                 <Grid item md={5} sm={12} xs={12}>
                     <img src={picture} alt="" style={{ width: "100%" }} />

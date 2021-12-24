@@ -10,7 +10,7 @@ function Aboutus(props) {
         <Box sx={{ bgcolor: "#ffffff" }}>
           <div style={{ color: "#1F5B88", padding: "10px" }}>
             <p>
-              E-complaintBox Application is going to be built for simplifying the Management of the complaints and to maintain transparency. This application will be working as a bridge between the citizens of the country and the governing body. People will not need to go to the authorities physically, rather they can solve and file their problem from anywhere they want. It is going to save their time and effort.
+              E-complaintBox application is going to be built for simplifying the management of the complaints and to maintain transparency. This application will be working as a bridge between the citizens of the country and the governing body. People will not need to go to the authorities physically, rather they can solve and file their problem from anywhere they want. It is going to save their time and effort.
             </p>
 
             <p>
@@ -20,11 +20,11 @@ function Aboutus(props) {
             </p>
             <p>
               Create an E-complaintBox management System.
-              All Indians can raise irrespective of Major or minor their complaints they face every day life here.
-              People can assign the problems to the respective Departments.
+              All Indians can raise irrespective of major or minor their complaints they face every day life here.
+              People can assign the problems to the respective departments.
               The departments can also Forward the complaints to the other departments if the problem does not exist in their domain.
               People don't need go to the departments physically, rather they can raise their problem from anywhere they want
-              The Complainers can keep the track of their problem whenever they want
+              The complainers can keep the track of their problem whenever they want
             </p>
             <p>
               Indian Citizens: All registered Indian citizens can use this to register and track the status of the complaints.
